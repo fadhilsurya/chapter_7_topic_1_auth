@@ -1,0 +1,32 @@
+{
+  "name": "chapter_7_topic_1_auth",
+  "version": "1.0.0",
+  "description": "excercise for chapter 7 topic 1",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fadhilsurya/chapter_7_topic_1_auth.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fadhilsurya/chapter_7_topic_1_auth/issues"
+  },
+  "homepage": "https://github.com/fadhilsurya/chapter_7_topic_1_auth#readme",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "ejs": "^3.1.8",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "pg": "^8.9.0",
+    "sequelize": "^6.29.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
