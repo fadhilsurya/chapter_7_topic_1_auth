@@ -2,50 +2,32 @@ const moment = require('moment')
 const helper = require('../../helper/common.helper')
 const formatResp = require('../../helper/response.helper')
 const { User } = require('../../models/index')
+const passport = require('passport')
+const localStrategy = require('passport-local').Strategy
 
-async function login(req, res, next) {
-    const resp = formatResp.response
-    console.log(`check body ${req.body.username} ${req.body.password}`)
 
-    try {
-        const userOne = await User.findOne({
-            where: {
-                username: req.body.username
-            }
-        })
+function loginPage(req, res) {
+    let message = ''
 
-        if (!userOne) {
-            resp.data = ""
-            resp.message = "user cannot be found"
-            resp.status = 400
-            res.json(resp)
+    if (req.session) {
+        if (req.session.message) {
+            message = req.session.message[0]
+
+            req.session.message = []
         }
-
-        const checkPass = helper.comparePass(req.body.password, userOne.password)
-
-        if (checkPass) {
-            resp.data = "token"
-            resp.message = "success"
-            resp.status = 200
-            res.json(resp)
-            return
-        } else {
-            resp.data = ""
-            resp.message = "error password invalid"
-            resp.status = 400
-            res.json(resp)
-
-        }
-
-    } catch {
-        resp.data = ""
-        resp.message = "error"
-        resp.status = 500
-        res.json(resp)
-        return
     }
-
+    res.json({
+        message
+    }).status(200)
 }
+
+const login = passport.authenticate('local', {
+    successRedirect: '/homepage',
+    failureRedirect: '/register',
+    failureMessage: true,
+    session: false
+})
+
 
 function register(req, res, next) {
     const formatDate = moment(req.body.dob).format('YYYY/MM/DD')
@@ -74,7 +56,6 @@ function register(req, res, next) {
 
             res.json(resp)
             return
-
         })
         .catch((err) => {
             resp.data = ""
@@ -83,13 +64,22 @@ function register(req, res, next) {
             res.json(resp)
             return
         })
+}
 
+function whoami(req, res) {
+    console.log({ req })
+    formatResp.response.data = req.user.dataValues
+    formatResp.response.message = 'success'
+    formatResp.response.status = 200
 
+    res.json(formatResp)
+    return
 }
 
 
-
 module.exports = {
+    loginPage,
     login,
-    register
+    register,
+    whoami
 }

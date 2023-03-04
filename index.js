@@ -5,7 +5,6 @@ const app = express()
 
 const port = process.env.PORT || 3000
 const router = require('./routes/route')
-
 app.use(express.urlencoded({
     extended: false
 }))
@@ -16,6 +15,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
 }))
+
 
 app.use('/', router)
 
