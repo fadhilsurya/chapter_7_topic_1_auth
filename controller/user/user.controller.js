@@ -14,6 +14,13 @@ async function login(req, res, next) {
             }
         })
 
+        if (!userOne) {
+            resp.data = ""
+            resp.message = "user cannot be found"
+            resp.status = 400
+            res.json(resp)
+        }
+
         const checkPass = helper.comparePass(req.body.password, userOne.password)
 
         if (checkPass) {
@@ -30,7 +37,6 @@ async function login(req, res, next) {
 
         }
 
-        n
     } catch {
         resp.data = ""
         resp.message = "error"
